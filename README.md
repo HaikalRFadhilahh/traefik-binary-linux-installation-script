@@ -110,7 +110,7 @@ sudo bash install.sh
 > [!WARNING]
 > Make sure you run the installation script with Super User / Sudo Access to be able to configure the System Folder.
 
-Jika anda tidak menjalankan dengan sudo anda akan menerima error seperti ini dibawah ini dan ulangi perintah dengan akses sudo!
+If you do not run with sudo you will receive an error like this below and repeat the command with sudo access!
 
 ![Error Sudo Access](./assets/error-sudo.png)
 
