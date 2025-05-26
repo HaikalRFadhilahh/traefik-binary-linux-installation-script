@@ -122,7 +122,7 @@ Congratulations you can use my Intalasi Script haha. And here is the additional 
 
 | EntryPoints / Port Acess |                 Router                  | Service      |
 | :----------------------: | :-------------------------------------: | ------------ |
-|        0.0.0.0:80        | default-htt-router with PathPrefix(`/`) | api@internal |
+|        0.0.0.0:80        | default-http-router with PathPrefix(`/`) | api@internal |
 
 At this point you have successfully installed Traefik Reverse Proxy with the Bash Shell and you can do further configuration in the `/etc/traefik/dynamic.yml` and `/etc/traefik/traefik.yml` files. You can read the references below for further guidance.
 
