@@ -1,0 +1,7 @@
+.vscode
+.env
+.DS_Store
+traefik.tar.gz
+traefik
+LICENSE.md
+CHANGELOG.md

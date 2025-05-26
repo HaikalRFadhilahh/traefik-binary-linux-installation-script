@@ -1,0 +1,21 @@
+http:
+  routers:
+    default-http-router:
+      entryPoints:
+        - web-http
+      rule: "PathPrefix(`/`)"
+      service: api@internal
+
+  # List of Middleware Configuration (Remove Comment if you want using Middlewares)
+  #middlewares:
+  #  redirect-from-http-to-https:
+  #    redirectScheme:
+  #      scheme: https
+  #      permanent: false
+
+  # List of Services Routing (Disabled Comment if you using services)
+  #services:
+  #  example-service:
+  #    loadBalancer:
+  #      servers:
+  #        - url: "https://doc.traefik.io/"

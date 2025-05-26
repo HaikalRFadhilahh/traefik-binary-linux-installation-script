@@ -1,0 +1,31 @@
+# Entrypoint For Request Handler From Port 80 and 443 
+entryPoints:
+  # Http Request Handler
+  web-http:
+    address: ":80"
+  # Https Request Handler (Remove Comment if you want activate https service)
+  #web-https:
+  #  address: ":443"
+
+# Dashboard Traefik (Add Comment this section if you not needed Traefik Dashboard API)
+api:
+  dashboard: true
+  insecure: true
+
+# Logging
+log:
+  level: DEBUG
+  filePath: /var/log/traefik/traefik-general-log
+  format: common
+
+accessLog:
+  filePath: /var/log/traefik/traefik-access-log
+  format: common
+
+# Read Routing, Service and Middleware From File in `/etc/traefik/dynamic.yml`
+providers:
+  # Read Configuration Routing from File
+  file:
+    filename: /etc/traefik/dynamic.yml
+    watch: true
+
