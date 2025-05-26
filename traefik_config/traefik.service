@@ -4,6 +4,7 @@ Documentation=https://doc.traefik.io
 After=network.target
 
 [Service]
+Environment=CF_DNS_API_TOKEN=your_token_here
 User=traefik
 Group=traefik
 ExecStart=/usr/local/bin/traefik --configFile=/etc/traefik/traefik.yml

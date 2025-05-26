@@ -57,12 +57,13 @@ traefik_install () {
             tar -xvf traefik.tar.gz &> /dev/null
 
             # Move traefik binary, config access and give access to use low port
-            rm -rf CHANGELOG.md
-            rm -rf LICENSE.md
             chmod a+x traefik
             mv traefik /usr/local/bin/traefik
             chown traefik:traefik /usr/local/bin/traefik
             setcap 'cap_net_bind_service=+ep' /usr/local/bin/traefik
+            rm -rf CHANGELOG.md
+            rm -rf LICENSE.md
+            rm -rf traefik.tar.gz
 
             # Create Access
             mkdir -p /var/log/traefik
@@ -181,6 +182,35 @@ traefik_uninstall () {
     fi
 }
 
+troubleshoot_traefik () {
+    clear_screen
+    print_text yellow "Here are some of the causes of traefik not running / error on your Linux server: "
+    echo "1. Port 80 or the one you set in /etc/traefik/traefik.yml collides with another service."
+    echo "2. /usr/local/bin is not listed in the PATH of your Linux environment. \n"
+    print_text green "Solution to your reverse proxy traffic problems:"
+    echo "1. Make sure you don't have any ports that collide with service traffics. Run the following command after shutting down the conflicting service 'systemctl restart traefik.service'."
+    echo "2. Attach the path '/usr/local/bin' to your environment path"
+    print_text green "Hope this information helps! \n"
+}
+
+
+install_cf_token () {
+    print_text yellow "This feature allows you to register or replace the CLOUDFLARE DNS API TOKEN"
+    echo -n "Please enter your CF_DNS_API_TOKEN (enter if you want to cancel): "
+    read cf_dns_api_token
+    if [ ! -z "$cf_dns_api_token" ];
+    then
+        sudo sed -i '' "s|^Environment=CF_DNS_API_TOKEN=.*|Environment=CF_DNS_API_TOKEN=$cf_dns_api_token|" /etc/systemd/system/traefik.service
+        systemctl daemon-reexec
+        systemctl daemon-reload
+        systemctl restart traefik.service
+        clear_screen
+        print_text green "Success Install CF_DNS_API_TOKEN in Traefik Reverse Proxy! Horayy"
+    else
+        clear_screen
+        print_text red "Cancel Register CF_DNS_API_TOKEN to Traefik Reverse Proxy!"
+    fi
+}
 
 # Welcome Message
 main () {
@@ -190,7 +220,9 @@ main () {
     echo "Please select the features available below : "
     echo "1. Instalation Traefik Binary on Linux"
     echo "2. Uninstall Traefik Binary on Linux"
-    echo "3. Exit"
+    echo "3. Troubleshooting: Error not found PATH traefik"
+    echo "4. Install Token CLOUDFLARE DNS API TOKEN"
+    echo "5. Exit"
     echo -n "Please select the available features by entering the selection number: "
     read options
     case $options in
@@ -201,8 +233,14 @@ main () {
         traefik_uninstall
         ;;
     3)
+        troubleshoot_traefik
+        ;;
+    4)
+        install_cf_token
+        ;;
+    5)
         print_text blue "Thank you for using this installation script. I hope you can use Traefik well 🐳."
-        break
+        exit 0
         ;;
     *)
         clear_screen
